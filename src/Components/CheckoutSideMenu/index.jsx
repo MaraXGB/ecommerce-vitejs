@@ -2,10 +2,14 @@ import { useContext } from 'react';
 import './styles.css';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { ShoppingCartContext } from '../../Context';
-
+import OrderCard from '../OderCard';
+import {totalPrice} from '../../Utils';
 const CheckoutSideMenu = () =>{
     const context = useContext(ShoppingCartContext);
-
+    const handleDelete = (id) => {
+        const filteredProducts = context.cartProducts.filter(product => product.id !== id );
+        context.setCartProducts(filteredProducts);
+    }
     //if(!context.productDetail || !context.productDetail.images) return null;
     return(
         <aside className={`${context.isCheckoutSideMenuOpen? 'flex': 'hidden'} checkout-side-menu flex-col fixed right-0 border border-gray rounded bg-white shadow-lg`}>
@@ -16,16 +20,25 @@ const CheckoutSideMenu = () =>{
                         <XMarkIcon className="size-6 text-black-500" />
                 </div>
             </div>
-            {/* <figure className='px-6'>
-                <img className='w-full h-full rounded-lg' 
-                     src={context.productDetail.images?.[0]} 
-                     alt={context.productDetail.title} />
-            </figure>
-            <p className='flex flex-col p-6'>
-                <span className='text-2xl font-medium mb-2'>${context.productDetail.price}</span>
-                <span className='text-md font-medium'>{context.productDetail.title}</span>
-                <span className='text-sm font-light'> {context.productDetail.Description}</span>
-            </p> */}
+            <div className='px-6 h-full overflow-y-scroll'>
+                {
+                    context.cartProducts.map(product => (
+                        <OrderCard key={product.id} 
+                        id={product.id}
+                        title={product.title} 
+                        price={product.price}
+                        imageUrl={product.images}
+                        handleDelete={handleDelete}
+                        />
+                    ))
+                }
+            </div>
+            <div className='px-6'>
+               <p className='flex justify-between items-center'>
+                <span className='font-ligth'>Total: </span>
+                <span className='font-medium font-2xl'>${totalPrice(context.cartProducts)}</span>
+               </p>
+            </div>
         </aside>
     );
 
