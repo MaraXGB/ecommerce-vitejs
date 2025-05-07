@@ -11,7 +11,7 @@ function MyOrders() {
     return (
         <Layout>
           
-          <h1>My Orders</h1>
+          <h1 className='font-medium text-xl mb-5'>My Orders</h1>
           {
             context.order.map((order, index) => (
               <Link to={`/my-orders/${index}`} key={index}>
