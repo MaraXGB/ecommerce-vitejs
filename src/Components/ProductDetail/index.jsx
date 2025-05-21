@@ -5,7 +5,7 @@ import { ShoppingCartContext } from '../../Context';
 
 const ProductDetail = () =>{
     const context = useContext(ShoppingCartContext);
-    console.log('Product Detail: ',context.productDetail);
+    //console.log('Product Detail: ',context.productDetail);
     if(!context.productDetail || !context.productDetail.images) return null;
     return(
         <aside className={`${context.isProductDetailOpen? 'flex': 'hidden'} product-detail flex-col fixed right-0 border border-gray rounded bg-white shadow-lg`}>
